@@ -1,0 +1,113 @@
+1. Explain the architecture of a Transformer model and how it improves over RNN/LSTM.
+- The Transformer architecture, introduced in the paper "Attention is All You Need," is based on the self-attention mechanism. Unlike RNNs/LSTMs that process sequential data one step at a time, Transformers can parallelize computations, leading to faster training.
+
+Key Components:
+- Self-attention: This mechanism helps the model focus on different parts of the input sequence at once, capturing dependencies between tokens.
+- Positional Encoding: Since Transformers don't process sequential data inherently, positional encoding is used to give a sense of order to the tokens.
+- Feed-forward layers: After attention is computed, it's passed through dense layers.
+- Multi-head attention: By using multiple attention heads, the model can capture different relationships in the data.
+- Improvement over RNN/LSTM:
+
+Parallelization: Transformers allow parallel computation, reducing training time significantly.
+- Long-range dependencies: Self-attention enables the model to capture dependencies between distant tokens better than RNNs/LSTMs, which may suffer from vanishing gradients.
+
+2. How would you optimize a deep learning model for deployment on an edge device with limited computational resources (e.g., smartphones)?
+- Optimizing models for edge devices involves reducing the model size and computational requirements:
+
+Quantization: Convert the model's weights from 32-bit floating point to lower-precision formats like 8-bit integer (INT8), without significant loss in accuracy.
+- Pruning: Remove redundant neurons and connections in the network by setting low-magnitude weights to zero.
+- Knowledge Distillation: Train a smaller, simpler model (student) by transferring knowledge from a larger pre-trained model (teacher).
+- Model Compression: Techniques like weight clustering and Huffman encoding can compress the model size.
+- Efficient Architectures: Use models designed for edge devices, like MobileNet, EfficientNet, or SqueezeNet, which are optimized for both performance and memory efficiency.
+
+3. Explain the difference between pruning, quantization, and knowledge distillation. When would you use each technique?
+- Pruning: This involves removing redundant or less significant weights/neurons in a model. It’s useful for reducing model size without a significant loss of accuracy.
+  Use case: When you need to reduce the complexity of a large model while retaining most of its accuracy.
+
+- Quantization: Converts high-precision weights (like float32) into lower precision (like int8 or bfloat16), reducing the memory footprint and computational cost.
+  Use case: Deployment on resource-constrained environments like mobile devices or embedded systems.
+
+- Knowledge Distillation: A smaller model (student) is trained to mimic the behavior of a larger, more complex model (teacher). The student model retains most of the teacher’s accuracy while being smaller and faster.
+  Use case: When you need to deploy a smaller model without significantly compromising performance.
+
+4. How do you handle overfitting in deep learning models, and which regularization techniques are most effective in practice?
+   Overfitting occurs when a model performs well on training data but poorly on unseen data. To handle it:
+
+  - Dropout: Randomly dropping neurons during training prevents the model from becoming overly reliant on specific neurons.
+  - L1/L2 Regularization: Adds penalties to the loss function for large weights, promoting smaller weights that generalize better. !! Example PyTorch Code !!!
+  - Data Augmentation: Increase the diversity of training data by applying transformations like rotations, flips, and cropping.
+  - Early Stopping: Stop training when performance on the validation set stops improving.
+  - Cross-validation: Using k-fold cross-validation to tune hyperparameters and avoid overfitting.
+
+5. Explain how batch normalization works. How does it impact the learning process and why is it beneficial?
+  Batch Normalization (BN) normalizes the inputs to each layer to have zero mean and unit variance. This speeds up training by making the network less sensitive to the initial weights and allowing for higher learning rates.
+
+  How it works: During training, for each mini-batch, BN calculates the mean and variance, normalizes the activations, and applies learnable scaling and shifting parameters.
+  Benefits:
+    - Faster convergence: By normalizing inputs, gradients flow better through the network, allowing faster learning.
+    - Regularization: Acts as a form of regularization, reducing the need for dropout or heavy weight regularization.
+
+6. Describe a recent deep learning project you worked on. What were the main challenges, and how did you overcome them?
+  Example:
+  - Project: Developing a computer vision model for automatic defect detection in manufacturing.
+  - Challenge 1: Imbalanced data, as defective parts are rare.
+       Solution: Used data augmentation and SMOTE (Synthetic Minority Over-sampling Technique) to balance the dataset.
+  - Challenge 2: Limited computational resources for deployment.
+       Solution: Applied model quantization and pruning to reduce the size of the model without losing accuracy.
+
+7. What is the difference between data augmentation and synthetic data generation? How would you implement them for a computer vision task?
+  Data Augmentation: Applies transformations (e.g., rotation, flipping, cropping) to existing data to increase the dataset’s size and diversity. It doesn’t create entirely new data but rather variations of the same images.
+  Implementation: In PyTorch, torchvision.transforms can be used for augmentation.
+
+  Synthetic Data Generation: Involves generating entirely new data using techniques like GANs (Generative Adversarial Networks) or 3D rendering.
+  Use case: When collecting real-world data is expensive or impossible.
+
+8. How do you parallelize a large-scale training job across multiple GPUs or distributed systems?
+  Data Parallelism: Split the data across multiple GPUs. Each GPU trains on a mini-batch of data and updates the model parameters using synchronized gradients.
+
+  Example: Use frameworks like PyTorch Distributed or TensorFlow MirroredStrategy.
+  Model Parallelism: Split the model itself across multiple GPUs. Each GPU computes a part of the model (useful for large models that can’t fit into a single GPU’s memory).
+
+  Distributed Training: Distribute both data and model across different nodes in a cluster. Use libraries like Horovod for large-scale distributed training.
+
+9. What’s your approach to hyperparameter tuning? Explain grid search vs. random search vs. Bayesian optimization.
+  - Grid Search: Searches over a predefined set of hyperparameters by exhaustively trying every possible combination. Can be time-consuming but thorough.
+  - Random Search: Samples hyperparameters randomly from a distribution. It’s more efficient than grid search because it covers a larger space in fewer trials.
+  - Bayesian Optimization: Uses probabilistic models to select hyperparameters that are likely to improve performance. More efficient than random search, as it focuses on promising areas of the search space.
+
+10. Given a large dataset with an imbalanced class distribution, how would you modify your model and data handling to ensure better performance?
+  - Oversampling: Increase the number of samples for the minority class by duplicating or generating synthetic data (e.g., using SMOTE).
+  - Undersampling: Reduce the number of samples from the majority class.
+  - Class Weights: Adjust the loss function to assign higher weights to the minority class. This can be done in PyTorch with class_weight in loss functions.
+  - Resampling: Combine oversampling the minority class and undersampling the majority class to balance the dataset.
+
+11. Implement a sliding window algorithm in C++ or Python to solve a specific problem, such as finding the maximum sum subarray.
+    #include <iostream>
+    #include <vector>
+    #include <algorithm>
+    
+    int maxSumSubarray(std::vector<int>& nums, int k) {
+        int maxSum = 0, windowSum = 0;
+        for (int i = 0; i < k; i++) {
+            windowSum += nums[i];
+        }
+        maxSum = windowSum;
+        for (int i = k; i < nums.size(); i++) {
+            windowSum += nums[i] - nums[i - k];
+            maxSum = std::max(maxSum, windowSum);
+        }
+        return maxSum;
+    }
+    
+    int main() {
+        std::vector<int> nums = {1, 2, 3, 4, 5, 6, 7, 8};
+        int k = 3;
+        std::cout << "Max Sum of subarray of size " << k << ": " << maxSumSubarray(nums, k) << std::endl;
+        return 0;
+    }
+
+12. Given two sorted arrays, write code to merge them into a single sorted array in the most efficient way.
+
+13. How would you implement a memory-efficient hash map for a specific AI use case?
+
+14. Describe how memory management works in C++ or Python, and how you'd handle memory leaks in production AI code.
