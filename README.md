@@ -1,25 +1,19 @@
 # misc_deep_learning_concepts
 
-# This Repo contains some generic concepts in Deep Learning (using PyTorch)
+## This Repo contains some generic concepts in Deep Learning (using PyTorch)
 - gradientdescent_manually.py
 - gradientdescent_automatic_using_pytorch.py
 - wt_print_each_layer.py
 - cross_entropy_example.py
+- MyCNNModel_full_training.py
 
 
 
 
 
-
-# Command to pull repo from the command line
-1. git init
-2. git add README.md
-3. git commit -m "first commit"
-4. git branch -M main
-5. git remote add origin https://github.com/pramodkumarjuit/misc_deep_learning_concepts.git
-6. git push -u origin main
-
-# Command to push files to repo from the command line
-git remote add origin https://github.com/pramodkumarjuit/misc_deep_learning_concepts.git
-git branch -M main
-git push -u origin main
+## Command to pull repo from the command line and push file to remote
+Example:
+  1. git clone git@github.com:pramodkumarjuit/misc_deep_learning_concepts.git # always use ssh (not https based)
+  2. git add README.md
+  3. git commit -m "Change in Readme for git checkout"
+  4. git push origin main
