@@ -36,6 +36,11 @@ summary(MyToyModel, (1,64,64))
 
 ## training code
 criterion = nn.MSELoss()
+
+# stochastic gradient descent (SGD)
+# momentum=0.9: this means that the new velocity will be a weighted sum
+# of 90% of the previous velocity and 10% of the current gradient.
+# This can help the optimizer to avoid getting stuck in local minima and converge more quickly.
 optimizer = optim.SGD(MyToyModel.parameters(), lr=0.001, momentum=0.9)
 epochs = 10
 steps = 12
